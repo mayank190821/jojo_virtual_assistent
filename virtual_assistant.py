@@ -58,6 +58,7 @@ def takeCommand():
 
 
 if __name__ == '__main__':
+    time_list = ['what is the time','time kya hai']
     wishMe()
     while (True):
         voice_command = ''
@@ -79,3 +80,5 @@ if __name__ == '__main__':
             songs = os.listdir(music_dir)
             song_number = random.randint(0, len(songs))
             os.startfile(os.path.join(music_dir, songs[song_number]))
+        elif voice_command in time_list:
+            speak("Sir the time is "+str(datetime.datetime.now().strftime("%H:%M:%S")))
