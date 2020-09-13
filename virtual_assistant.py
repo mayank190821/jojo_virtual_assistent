@@ -1,6 +1,6 @@
 # importing libraries
 import datetime
-
+import wikipedia
 import pyttsx3
 import speech_recognition as sr
 
@@ -40,7 +40,7 @@ def takeCommand():
     global voice_command
     print("Listening...")
     r = sr.Recognizer()
-    r.energy_threshold = 2000
+    r.energy_threshold = 1700
     with sr.Microphone() as source:
         audio = r.listen(source)
         try:
@@ -57,6 +57,14 @@ def takeCommand():
 
 
 if __name__ == '__main__':
+    voice_command = ''
     wishMe()
     while (True):
         voice_command = takeCommand().lower()
+        #Logic for executing tasks based on command
+        if "wikipedia" in voice_command:
+            speak("Searching wikipedia...")
+            voice_command = voice_command.replace('wikipedia', "")
+            results = wikipedia.summary(voice_command, sentences=2)
+            speak("According to wikipedia")
+            speak(results)
