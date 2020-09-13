@@ -3,7 +3,7 @@ import datetime
 import os
 import random
 import webbrowser as wb
-
+import googlesearch as gs
 import pyttsx3
 import speech_recognition as sr
 import wikipedia
@@ -24,7 +24,7 @@ def speak(audio_data):
 
 def wishMe():
     '''
-    Take realtime date and wish according to it.
+    #Take realtime date and wish according to it.
     '''
     hour = int(datetime.datetime.now().hour)
     if (hour >= 0) and (hour < 12):
@@ -38,7 +38,7 @@ def wishMe():
 
 def takeCommand():
     '''
-    It take Microphone input from the user.
+    #It take Microphone input from the user.
     :return: voice_command
     '''
     global voice_command
@@ -68,9 +68,12 @@ if __name__ == '__main__':
         if "wikipedia" in voice_command:
             speak("Searching wikipedia...")
             voice_command = voice_command.replace('wikipedia', "")
-            results = wikipedia.summary(voice_command, sentences=2)
-            speak("According to wikipedia")
-            speak(results)
+            try:
+                results = wikipedia.summary(voice_command, sentences=2)
+                speak("According to wikipedia")
+                speak(results)
+            except:
+                speak("Sorry sir, This page is not found. Try with other one. ")
         elif 'open google' in voice_command:
             speak('opening google...')
             wb.open('www.google.com')
