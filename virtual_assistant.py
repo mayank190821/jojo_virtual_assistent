@@ -1,8 +1,12 @@
 # importing libraries
 import datetime
-import wikipedia
+import os
+import random
+import webbrowser as wb
+
 import pyttsx3
 import speech_recognition as sr
+import wikipedia
 
 engine = pyttsx3.init('sapi5')
 voice = engine.getProperty('voices')
@@ -38,17 +42,14 @@ def takeCommand():
     :return: voice_command
     '''
     global voice_command
-    print("Listening...")
     r = sr.Recognizer()
     r.energy_threshold = 1700
     with sr.Microphone() as source:
         audio = r.listen(source)
         try:
-
             voice_command = r.recognize_google(audio)
             print("Command: " + voice_command)
         except Exception as e:
-
             speak("sorry, I didn't get it.")
         if voice_command == "exit":
             speak("Thanks for using me sir.")
@@ -57,14 +58,24 @@ def takeCommand():
 
 
 if __name__ == '__main__':
-    voice_command = ''
     wishMe()
     while (True):
+        voice_command = ''
+        print("Listening...")
         voice_command = takeCommand().lower()
-        #Logic for executing tasks based on command
+        # Logic for executing tasks based on command
         if "wikipedia" in voice_command:
             speak("Searching wikipedia...")
             voice_command = voice_command.replace('wikipedia', "")
             results = wikipedia.summary(voice_command, sentences=2)
             speak("According to wikipedia")
             speak(results)
+        elif 'open google' in voice_command:
+            speak('opening google...')
+            wb.open('www.google.com')
+        elif 'play music' in voice_command:
+            speak('playing music...')
+            music_dir = 'G:\\cd'
+            songs = os.listdir(music_dir)
+            song_number = random.randint(0, len(songs))
+            os.startfile(os.path.join(music_dir, songs[song_number]))
